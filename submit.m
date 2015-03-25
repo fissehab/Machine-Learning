@@ -107,51 +107,50 @@ end
 % ================== CONFIGURABLES FOR EACH HOMEWORK ==================
 
 function id = homework_id() 
-  id = '5';
+  id = '7';
 end
 
 function [partNames] = validParts()
-  partNames = { 'Regularized Linear Regression Cost Function', ...
-                'Regularized Linear Regression Gradient', ...
-                'Learning Curve', ...
-                'Polynomial Feature Mapping' ...
-                'Validation Curve' ...
+  partNames = { 
+                'Find Closest Centroids (k-Means)', ...
+                'Compute Centroid Means (k-Means)' ...
+                'PCA', ...
+                'Project Data (PCA)', ...
+                'Recover Data (PCA)' ...
                 };
 end
 
 function srcs = sources()
   % Separated by part
-  srcs = { { 'linearRegCostFunction.m' }, ...
-           { 'linearRegCostFunction.m' }, ...
-           { 'learningCurve.m' }, ...
-           { 'polyFeatures.m' }, ...
-           { 'validationCurve.m' } };
+  srcs = { { 'findClosestCentroids.m' }, ...
+           { 'computeCentroids.m' }, ...
+           { 'pca.m' }, ...
+           { 'projectData.m' }, ...
+           { 'recoverData.m' } ...
+           };
 end
 
 function out = output(partId, auxstring)
   % Random Test Cases
-  X = [ones(10,1) sin(1:1.5:15)' cos(1:1.5:15)'];
-  y = sin(1:3:30)';
-  Xval = [ones(10,1) sin(0:1.5:14)' cos(0:1.5:14)'];
-  yval = sin(1:10)';
+  X = reshape(sin(1:165), 15, 11);
+  Z = reshape(cos(1:121), 11, 11);
+  C = Z(1:5, :);
+  idx = (1 + mod(1:15, 3))';
   if partId == 1
-    [J] = linearRegCostFunction(X, y, [0.1 0.2 0.3]', 0.5);
-    out = sprintf('%0.5f ', J);
+    idx = findClosestCentroids(X, C);
+    out = sprintf('%0.5f ', idx(:));
   elseif partId == 2
-    [J, grad] = linearRegCostFunction(X, y, [0.1 0.2 0.3]', 0.5);
-    out = sprintf('%0.5f ', grad);
+    centroids = computeCentroids(X, idx, 3);
+    out = sprintf('%0.5f ', centroids(:));
   elseif partId == 3
-    [error_train, error_val] = ...
-        learningCurve(X, y, Xval, yval, 1);
-    out = sprintf('%0.5f ', [error_train(:); error_val(:)]);
+    [U, S] = pca(X);
+    out = sprintf('%0.5f ', abs([U(:); S(:)]));
   elseif partId == 4
-    [X_poly] = polyFeatures(X(2,:)', 8);
-    out = sprintf('%0.5f ', X_poly);
+    X_proj = projectData(X, Z, 5);
+    out = sprintf('%0.5f ', X_proj(:));
   elseif partId == 5
-    [lambda_vec, error_train, error_val] = ...
-        validationCurve(X, y, Xval, yval);
-    out = sprintf('%0.5f ', ...
-        [lambda_vec(:); error_train(:); error_val(:)]);
+    X_rec = recoverData(X(:,1:5), Z, 5);
+    out = sprintf('%0.5f ', X_rec(:));
   end 
 end
 
