@@ -1,7 +1,9 @@
 # Machine-Learning from Coursera as offered by Andrew Ng from Stanford 
 
 •	Introduction
+
 •	Linear Regression with One Variable
+
 •	 Linear Algebra Review
 •	Review Questions (for the week's topics)
 •	Linear Regression with Multiple Variables
