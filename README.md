@@ -1,4 +1,7 @@
  Machine-Learning from Coursera as offered by Andrew Ng from Stanford 
+ 
+Statement of Accomplishment: https://www.coursera.org/maestro/api/certificate/get_certificate?course_id=973756
+(Grade Achieved: 100.0%)
 
 •	Introduction
 
